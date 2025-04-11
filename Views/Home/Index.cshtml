@@ -1,8 +1,53 @@
-﻿@{
+﻿@* @{ *@
+@*     ViewData["Title"] = "Home Page"; *@
+@* } *@
+
+@* <div class="text-center"> *@
+@*     <h1 class="display-4">Welcome</h1> *@
+@*     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p> *@
+@* </div> *@
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5">
+    <div class="text-center bg-light p-5 rounded shadow">
+        <h1 class="display-1 text-success fw-bold">Welcome to BITEWISE!</h1>
+        <h2 class="display-2 text-success fw-normal">Your Personalized Calorie and Fitness Tracker!</h2>
+        <p class="lead text-dark">Achieve your health goals with ease — from tracking meals to discovering delicious Jamaican recipes, all in one powerful app!</p>
+
+        <img src="~/images/fitness.png" alt="Fitness and Health" class="img-fluid rounded shadow my-4" style="max-height: 400px;" />
+
+        <p class="fs-5 text-secondary">
+            Whether you're just starting out or deep into your fitness journey, this app helps you log meals, monitor your progress, track workouts, and stay motivated — all with foods and features made just for Jamaicans.
+        </p>
+
+        <!-- 🔁 Authentication-aware Buttons -->
+        @using Microsoft.AspNetCore.Identity
+        @inject SignInManager<IdentityUser> SignInManager
+        @inject UserManager<IdentityUser> UserManager
+
+        <div class="d-flex justify-content-center flex-wrap mt-4">
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <span class="btn btn-outline-success mx-2 my-2 px-4 py-2 disabled">Hello @User.Identity?.Name!</span>
+
+                <form asp-area="Identity" asp-page="/Account/Logout"
+                      asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"
+                      method="post" class="mx-2 my-2">
+                    <button type="submit" class="btn btn-danger px-4 py-2">Logout</button>
+                </form>
+            }
+            else
+            {
+                <a href="/Account/Login" class="btn btn-success mx-2 my-2 px-4 py-2">User Login</a>
+                <a href="/Admin/Login" class="btn btn-warning mx-2 my-2 px-4 py-2">Admin Login</a>
+                <a href="/Account/Register" class="btn btn-primary mx-2 my-2 px-4 py-2">Register</a>
+            }
+        </div>
+    </div>
 </div>
