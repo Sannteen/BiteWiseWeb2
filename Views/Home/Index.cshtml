@@ -44,9 +44,11 @@
             }
             else
             {
-                <a href="/Account/Login" class="btn btn-success mx-2 my-2 px-4 py-2">User Login</a>
-                <a href="/Admin/Login" class="btn btn-warning mx-2 my-2 px-4 py-2">Admin Login</a>
-                <a href="/Account/Register" class="btn btn-primary mx-2 my-2 px-4 py-2">Register</a>
+                <div class="nav-item">
+                    <a class="btn btn-success mx-2 my-2 px-4 py-2" asp-area="Identity" asp-page="/Account/Login">User Login</a>
+                    <a class="btn btn-warning mx-2 my-2 px-4 py-2" asp-area="Identity" asp-page="/Admin/Login">Admin Login</a>
+                    <a class="btn btn-primary mx-2 my-2 px-4 py-2" asp-page="/Account/Register" asp-area="Identity">Register</a>
+                 </div>
             }
         </div>
     </div>

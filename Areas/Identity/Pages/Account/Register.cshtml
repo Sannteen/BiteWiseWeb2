@@ -1,4 +1,4 @@
-﻿@page
+﻿@* @page
 @model RegisterModel
 @{
     ViewData["Title"] = "Register";
@@ -59,6 +59,153 @@
                 }
             }
         </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+} *@
+
+@page
+@model RegisterModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow rounded p-5 bg-light">
+                <div class="text-center mb-4">
+                    <h1 class="display-5 text-success">Create a New Account</h1>
+                    <p class="lead text-secondary">Join BITEWISE today and start tracking your fitness goals!</p>
+                </div>
+
+                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+
+                    <div class="form-floating mb-4">
+                        <input asp-for="Input.Name" class="form-control" placeholder="Full Name" aria-required="true" />
+                        <label asp-for="Input.Name" class="form-label">Full Name</label>
+                        <span asp-validation-for="Input.Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <input asp-for="Input.Email" class="form-control" placeholder="name@example.com" aria-required="true" />
+                        <label asp-for="Input.Email" class="form-label">Email Address</label>
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <input asp-for="Input.Password" class="form-control" autocomplete="new-password" placeholder="Enter password" aria-required="true" />
+                        <label asp-for="Input.Password" class="form-label">Password</label>
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" placeholder="Confirm password" aria-required="true" />
+                        <label asp-for="Input.ConfirmPassword" class="form-label">Confirm Password</label>
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <input asp-for="Input.Age" class="form-control" placeholder="Age" aria-required="true" />
+                        <label asp-for="Input.Age" class="form-label">Age</label>
+                        <span asp-validation-for="Input.Age" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <select asp-for="Input.Gender" class="form-select" aria-required="true">
+                            <option value="" disabled selected>Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <label asp-for="Input.Gender" class="form-label">Gender</label>
+                        <span asp-validation-for="Input.Gender" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <input asp-for="Input.Height" class="form-control" placeholder="Height in cm" aria-required="true" />
+                        <label asp-for="Input.Height" class="form-label">Height (cm)</label>
+                        <span asp-validation-for="Input.Height" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <input asp-for="Input.Weight" class="form-control" placeholder="Weight in kg" aria-required="true" />
+                        <label asp-for="Input.Weight" class="form-label">Weight (kg)</label>
+                        <span asp-validation-for="Input.Weight" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <select asp-for="Input.Goal" class="form-select" aria-required="true">
+                            <option value="" disabled selected>Select Your Goal</option>
+                            <option value="Lose Weight">Lose Weight</option>
+                            <option value="Maintain Weight">Maintain Weight</option>
+                            <option value="Gain Muscle">Gain Muscle</option>
+                        </select>
+                        <label asp-for="Input.Goal" class="form-label">Fitness Goal</label>
+                        <span asp-validation-for="Input.Goal" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <select asp-for="Input.ActivityLevel" class="form-select" aria-required="true">
+                            <option value="" disabled selected>Select Activity Level</option>
+                            <option value="Sedentary">Sedentary</option>
+                            <option value="Lightly Active">Lightly Active</option>
+                            <option value="Moderately Active">Moderately Active</option>
+                            <option value="Very Active">Very Active</option>
+                            <option value="Super Active">Super Active</option>
+                        </select>
+                        <label asp-for="Input.ActivityLevel" class="form-label">Activity Level</label>
+                        <span asp-validation-for="Input.ActivityLevel" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-grid mb-3">
+                        <button id="registerSubmit" type="submit" class="btn btn-success btn-md rounded-pill" style="background-color: #74c69d; border-color: #74c69d; font-weight: normal;">
+                            Register
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- External Registration Section -->
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <div class="card shadow rounded p-4 bg-light text-center">
+                <h3 class="text-success mb-3">Or register with:</h3>
+                <hr />
+                @{
+                    if ((Model.ExternalLogins?.Count ?? 0) == 0)
+                    {
+                        <div class="text-secondary">
+                            <p>No external authentication services configured.</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                            <div class="d-grid gap-2">
+                                @foreach (var provider in Model.ExternalLogins!)
+                                {
+                                    <button type="submit"
+                                            class="btn btn-outline-primary rounded-pill btn-md"
+                                            style="font-weight: normal;"
+                                            name="provider"
+                                            value="@provider.Name"
+                                            title="Register using your @provider.DisplayName account">
+                                        @provider.DisplayName
+                                    </button>
+                                }
+                            </div>
+                        </form>
+                    }
+                }
+            </div>
+        </div>
     </div>
 </div>
 
