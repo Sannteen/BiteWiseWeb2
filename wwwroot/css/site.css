@@ -20,3 +20,123 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+
+
+/* COLOUR*/
+
+
+/* Primary Turquoise */
+.btn-turquoise {
+    background-color: #40E0D0;
+    color: white;
+}
+
+    .btn-turquoise:hover {
+        background-color: #38b8b0; /* Darker turquoise */
+    }
+
+/* Light Turquoise */
+.bg-light-turquoise {
+    background-color: #66F2E6;
+}
+
+/* Dark Turquoise */
+.bg-dark-turquoise {
+    background-color: #20B2AA;
+    color: white;
+}
+
+/* Muted Turquoise */
+.text-muted-turquoise {
+    color: #48C7B5;
+}
+
+/* Soft Turquoise */
+.bg-soft-turquoise {
+    background-color: #A0E8D4;
+}
+
+/* Complementary Colors */
+.bg-coral {
+    background-color: #FF6F61;
+}
+
+.text-coral {
+    color: #FF6F61;
+}
+
+.bg-lime-green {
+    background-color: #A8E04E;
+}
+
+.text-lime-green {
+    color: #A8E04E;
+}
+
+.bg-soft-peach {
+    background-color: #FFDAB9;
+}
+
+.text-soft-peach {
+    color: #FFDAB9;
+}
+/* Turquoise Color Scheme */
+
+/* Light Turquoise */
+.bg-light-turquoise {
+    background-color: #66F2E6;
+}
+
+/* Dark Turquoise */
+.text-med-turquoise {
+    color: #008B8B;
+}
+
+/* Muted Turquoise */
+.text-muted-turquoise {
+    color: #48C7B5;
+}
+
+/* Complementary Colors */
+
+/* Coral */
+.btn-coral {
+    background-color: #FF6F61;
+    color: white;
+}
+
+    .btn-coral:hover {
+        background-color: #e55a4e;
+    }
+
+/* Lime Green */
+.btn-lime-green {
+    background-color: #A8E04E;
+    color: white;
+}
+
+    .btn-lime-green:hover {
+        background-color: #88C036;
+    }
+
+/* Primary Turquoise */
+.btn-turquoise {
+    background-color: #40E0D0;
+    color: white;
+}
+
+    .btn-turquoise:hover {
+        background-color: #38b8b0; /* Darker turquoise */
+    }
+
+/* Dark Turquoise (Outline) */
+.btn-outline-dark-turquoise {
+    border-color: #20B2AA;
+    color: #20B2AA;
+}
+
+    .btn-outline-dark-turquoise:hover {
+        background-color: #20B2AA;
+        color: white;
+    }
