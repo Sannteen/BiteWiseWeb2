@@ -23,6 +23,9 @@ public partial class User
 
     public string? ActivityLevel { get; set; }
 
+    public string? FitnessGoal { get; set; }
+
+ 
     public string? Goal { get; set; }
 
     public short? LockStatus { get; set; }

@@ -8,6 +8,11 @@
      <li class="nav-item"> 
         <a  class="nav-link text-dark" asp-area="identity" asp-page="/account/manage/index" title="manage">hello @User.Identity?.Name!</a> 
      </li>
+
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="Profile" asp-action="Index">Profile</a>
+        </li>
+
     <li class="nav-item">
         <form  class="form-inline" asp-area="identity" asp-page="/account/logout" asp-route-returnurl="@Url.Action("index", "home", new { area = "" })">
             <button  type="submit" class="nav-link btn btn-link text-dark">logout</button>
