@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BiteWiseWeb2.Data;
 
 public partial class UserInfoDetail
 {
+  
     public int UserId { get; set; }
 
     public string Name { get; set; } = null!;
