@@ -17,7 +17,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BiteWiseWeb2.Areas.Identity.Pages.Account
 {
-    public class LoginModel : PageModel
+    public class LoginModel : Data.User
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
