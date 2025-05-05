@@ -1,51 +1,73 @@
 ﻿using System;
 using System.Collections.Generic;
+using BiteWiseWeb2.Data;
+using BiteWiseWeb2.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BiteWiseWeb2.Data;
 
-public partial class BiteWiseDbContext : DbContext
-{
-    public BiteWiseDbContext()
+    public class BiteWiseDbContext : IdentityDbContext<IdentityUser>
     {
-    }
+        public BiteWiseDbContext(DbContextOptions<BiteWiseDbContext> options)
+            : base(options)
+        {
+        }
 
-    public BiteWiseDbContext(DbContextOptions<BiteWiseDbContext> options)
-        : base(options)
-    {
-    }
+        public DbSet<FoodLog> FoodLogs { get; set; }
+        public DbSet<WorkoutLog> WorkoutLogs { get; set; }
+        public virtual DbSet<DailySummary> DailySummaries { get; set; }
+        
+        public virtual DbSet<Exercise> Exercises { get; set; }
 
-    public virtual DbSet<DailySummary> DailySummaries { get; set; }
+        public virtual DbSet<Food> Foods { get; set; }
 
-    public virtual DbSet<Exercise> Exercises { get; set; }
+        public virtual DbSet<Goal> Goals { get; set; }
 
-    public virtual DbSet<Food> Foods { get; set; }
+        public virtual DbSet<JamaicanRecipe> JamaicanRecipes { get; set; }
 
-    public virtual DbSet<FoodLog> FoodLogs { get; set; }
+        public virtual DbSet<Meal> Meals { get; set; }
 
-    public virtual DbSet<Goal> Goals { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
-    public virtual DbSet<JamaicanRecipe> JamaicanRecipes { get; set; }
+        public virtual DbSet<UserInfoDetail> UserInfoDetails { get; set; }
 
-    public virtual DbSet<Meal> Meals { get; set; }
+        public virtual DbSet<UserMeasurement> UserMeasurements { get; set; }
 
-    public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserPicture> UserPictures { get; set; }
 
-    public virtual DbSet<UserInfoDetail> UserInfoDetails { get; set; }
+        public virtual DbSet<UserPreference> UserPreferences { get; set; }
 
-    public virtual DbSet<UserMeasurement> UserMeasurements { get; set; }
+        public virtual DbSet<UserWorkLog> UserWorkLogs { get; set; }
 
-    public virtual DbSet<UserPicture> UserPictures { get; set; }
+    
 
-    public virtual DbSet<UserPreference> UserPreferences { get; set; }
 
-    public virtual DbSet<UserWorkLog> UserWorkLogs { get; set; }
 
-    public virtual DbSet<WorkoutLog> WorkoutLogs { get; set; }
+    //public class FoodLog
+    //{
+    //    public int Id { get; set; }
+    //    public string? UserId { get; set; } // Foreign key to IdentityUser.Id
+    //    public DateTime Date { get; set; }
+    //    public string? FoodName { get; set; }
+    //    public int Calories { get; set; }
+    //}
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=23.95.235.16,1433;Initial Catalog=BiteWiseDB;User ID=vtdi_student;Password=P@ssword1; Encrypt=false; Trusted_Connection=false");
+    //public class WorkoutLog
+    //{
+    //    public int Id { get; set; }
+    //    public string? UserId { get; set; } // Foreign key to IdentityUser.Id
+    //    public DateTime Date { get; set; }
+    //    public string? ExerciseType { get; set; }
+    //    public int DurationMinutes { get; set; }
+    //}
+
+
+
+//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+////#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+//        => optionsBuilder.UseSqlServer("Data Source=23.95.235.16,1433;Initial Catalog=BiteWiseDB;User ID=vtdi_student;Password=P@ssword1; Encrypt=false; Trusted_Connection=false");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -442,8 +464,8 @@ public partial class BiteWiseDbContext : DbContext
                 .HasConstraintName("FK_WorkoutLogs_Users");
         });
 
-        OnModelCreatingPartial(modelBuilder);
+       // OnModelCreatingPartial(modelBuilder);
     }
 
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+ //   partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

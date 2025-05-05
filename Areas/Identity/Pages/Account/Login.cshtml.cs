@@ -14,10 +14,12 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using BiteWiseWeb2.Data;
+using BiteWiseWeb2.Models;  
 
 namespace BiteWiseWeb2.Areas.Identity.Pages.Account
 {
-    public class LoginModel : Data.User
+    public class LoginModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
@@ -115,7 +117,7 @@ namespace BiteWiseWeb2.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect("/Dashboard");
+                    return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {
