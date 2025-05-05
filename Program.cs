@@ -1,4 +1,5 @@
 using BiteWiseWeb2.Data;
+using BiteWiseWeb2.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Net.NetworkInformation;
@@ -15,7 +16,7 @@ builder.Services.AddDbContext<BiteWiseDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
 
     .AddEntityFrameworkStores<BiteWiseDbContext>();
 
