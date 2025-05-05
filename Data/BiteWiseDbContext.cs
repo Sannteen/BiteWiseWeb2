@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using BiteWiseWeb2.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BiteWiseWeb2.Data;
@@ -44,7 +46,7 @@ public partial class BiteWiseDbContext : DbContext
     public virtual DbSet<WorkoutLog> WorkoutLogs { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+
         => optionsBuilder.UseSqlServer("Data Source=23.95.235.16,1433;Initial Catalog=BiteWiseDB;User ID=vtdi_student;Password=P@ssword1; Encrypt=false; Trusted_Connection=false");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

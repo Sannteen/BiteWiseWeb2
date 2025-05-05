@@ -16,7 +16,7 @@ builder.Services.AddDbContext<BiteWiseDbContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
 
     .AddEntityFrameworkStores<BiteWiseDbContext>();
 
