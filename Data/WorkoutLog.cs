@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace BiteWiseWeb2.Data;
 
 public partial class WorkoutLog
 {
+    [Key]
     public int LogId { get; set; }
-
+    
     public int UserId { get; set; }
-
+   
     public int? ExerciseId { get; set; }
 
     public decimal? Duration { get; set; }
