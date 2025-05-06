@@ -1,9 +1,123 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@model BiteWiseWeb2.Models.DashboardViewModel
 @{
-   
     ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>Welcome to Your Dashboard!</h2>
+
+<div class="container mt-5">
+    <div class="text-center text-muted-turquoise p-5 rounded shadow bg-light">
+        <h1 class="display-3 text-med-turquoise fw-bold">Welcome to Your Dashboard!</h1>
+        <p class="lead text-dark">Hello, @Model.UserName! Track your fitness journey with BITEWISE.</p>
+
+        <!-- Today's Summary -->
+        <div class="row mt-4">
+            <div class="col-md-6 mb-4">
+                <div class="card shadow rounded p-4 text-muted-turquoise">
+                    <h3 class="text-med-turquoise">Today's Summary</h3>
+                    @if (Model.TodaySummary != null)
+                    {
+                        <p>Total Calories Consumed: @Model.TodaySummary.TotalCaloriesConsumed</p>
+                        <p>Total Calories Burned: @Model.TodaySummary.TotalCaloriesBurned</p>
+                        <p>Net Calories: @Model.TodaySummary.NetCalories</p>
+                    }
+                    else
+                    {
+                        <p>No summary available for today.</p>
+                    }
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card shadow rounded p-4 text-muted-turquoise">
+                    <h3 class="text-med-turquoise">Recent Food Logs</h3>
+                    @if (Model.RecentFoodLogs.Any())
+                    {
+                        <ul class="list-unstyled">
+                            @foreach (var log in Model.RecentFoodLogs)
+                            {
+                                <li>@log.Date.ToShortDateString(): @log.FoodName (@log.CalsConsumed kcal)</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p>No recent food logs.</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Logs Section -->
+        <div class="row mt-4">
+            <!-- Add Food Log Form -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow rounded p-4 text-muted-turquoise">
+                    <h3 class="text-med-turquoise">Log Food</h3>
+                    <form asp-action="AddFoodLog" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="mb-3">
+                            <label asp-for="FoodName" class="form-label">Food Name</label>
+                            <input asp-for="FoodName" class="form-control" placeholder="e.g., Jerk Chicken" />
+                            <span asp-validation-for="FoodName" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="FoodCalories" class="form-label">Calories (kcal)</label>
+                            <input asp-for="FoodCalories" class="form-control" type="number" placeholder="e.g., 500" />
+                            <span asp-validation-for="FoodCalories" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="FoodDate" class="form-label">Date</label>
+                            <input asp-for="FoodDate" class="form-control" type="date" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                            <span asp-validation-for="FoodDate" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="btn btn-success rounded-pill" style="background-color: #74c69d; border-color: #74c69d;">Add Food Log</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Add Workout Log Form -->
+            <div class="col-md-6 mb-4">
+                <div class="card shadow rounded p-4 text-muted-turquoise">
+                    <h3 class="text-med-turquoise">Log Exercise</h3>
+                    <form asp-action="AddWorkoutLog" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="mb-3">
+                            <label asp-for="ExerciseType" class="form-label">Exercise Type</label>
+                            <input asp-for="ExerciseType" class="form-control" placeholder="e.g., Running" />
+                            <span asp-validation-for="ExerciseType" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="DurationMinutes" class="form-label">Duration (minutes)</label>
+                            <input asp-for="DurationMinutes" class="form-control" type="number" placeholder="e.g., 30" />
+                            <span asp-validation-for="DurationMinutes" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="WorkoutCaloriesBurned" class="form-label">Calories Burned (kcal)</label>
+                            <input asp-for="WorkoutCaloriesBurned" class="form-control" type="number" placeholder="e.g., 200" />
+                            <span asp-validation-for="WorkoutCaloriesBurned" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="WorkoutDate" class="form-label">Date</label>
+                            <input asp-for="WorkoutDate" class="form-control" type="date" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                            <span asp-validation-for="WorkoutDate" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="btn btn-success rounded-pill" style="background-color: #74c69d; border-color: #74c69d;">Add Workout Log</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="d-flex justify-content-center mt-4">
+            <a asp-controller="FoodLog" asp-action="Index" class="btn btn-success mx-2 px-4 py-2 rounded-pill" style="background-color: #74c69d; border-color: #74c69d;">View Food Logs</a>
+            <a asp-controller="Profile" asp-action="Index" class="btn btn-lime-green mx-2 px-4 py-2 rounded-pill">View Profile</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
 

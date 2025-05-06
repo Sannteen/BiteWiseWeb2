@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
-namespace BiteWiseWeb2.Data;
+namespace BiteWiseWeb2.Models;
 
 public partial class UserPreference
 {

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace BiteWiseWeb2.Data;
+namespace BiteWiseWeb2.Models;
 
 public partial class WorkoutLog
 {

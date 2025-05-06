@@ -6,27 +6,47 @@
     <title>@ViewData["Title"] - BiteWiseWeb2</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/BiteWiseWeb2.styles.css" asp-append-version="true" />
+    <style>
+        .text-muted-turquoise { color: #4a919e; }
+        .text-med-turquoise { color: #3c7883; }
+        .btn-lime-green { background-color: #c4d7a4; border-color: #c4d7a4; }
+        .btn-success { background-color: #74c69d; border-color: #74c69d; }
+    </style>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">BiteWise</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+            <div class="container">
+                <a class="navbar-brand text-muted-turquoise" asp-area="" asp-controller="Home" asp-action="Index">BiteWise</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-muted-turquoise" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-muted-turquoise" asp-controller="FoodLog" asp-action="Index">Food Log</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-muted-turquoise" asp-controller="Profile" asp-action="Index">Profile</a>
+                            </li>
+                        }
                     </ul>
-                    <partial name="_LoginPartial" />
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home")" method="post">
+                            <button type="submit" class="nav-link btn btn-link text-muted-turquoise">Logout</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a class="nav-link text-muted-turquoise" asp-area="Identity" asp-page="/Account/Login">Login</a>
+                        <a class="nav-link text-muted-turquoise" asp-area="Identity" asp-page="/Account/Register">Register</a>
+                    }
                 </div>
             </div>
         </nav>
@@ -36,15 +56,16 @@
             @RenderBody()
         </main>
     </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - BiteWise - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            © 2025 - BiteWise
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

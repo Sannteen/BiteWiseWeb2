@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using BiteWiseWeb2.Models;
 using Microsoft.AspNetCore.Identity;
+using static BiteWiseWeb2.Models.BiteWiseDbContext;
 
 namespace BiteWiseWeb2.Controllers;
 

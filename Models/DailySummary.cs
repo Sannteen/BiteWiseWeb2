@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BiteWiseWeb2.Data;
+namespace BiteWiseWeb2.Models;
 
 public partial class DailySummary
 {
@@ -9,7 +9,7 @@ public partial class DailySummary
 
     public int? UserId { get; set; }
 
-    public DateOnly? Date { get; set; }
+    public DateOnly Date { get; set; }
 
     public decimal? TotalCaloriesConsumed { get; set; }
 

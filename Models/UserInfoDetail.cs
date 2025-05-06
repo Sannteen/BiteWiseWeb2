@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace BiteWiseWeb2.Data;
+namespace BiteWiseWeb2.Models;
 
 public partial class UserInfoDetail
 {

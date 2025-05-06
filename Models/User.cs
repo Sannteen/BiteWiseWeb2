@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BiteWiseWeb2.Data;
+namespace BiteWiseWeb2.Models;
 
 public partial class User
 {
@@ -23,7 +23,7 @@ public partial class User
 
     public string? ActivityLevel { get; set; }
 
-    public string? FitnessGoal { get; set; }
+    //public string? FitnessGoal { get; set; }
 
  
     public string? Goal { get; set; }

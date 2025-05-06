@@ -1,8 +1,8 @@
-using BiteWiseWeb2.Data;
 using BiteWiseWeb2.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Net.NetworkInformation;
+using static BiteWiseWeb2.Models.BiteWiseDbContext;
 
 var builder = WebApplication.CreateBuilder(args);
 

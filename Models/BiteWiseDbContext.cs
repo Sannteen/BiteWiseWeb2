@@ -1,21 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using BiteWiseWeb2.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using static BiteWiseWeb2.Models.BiteWiseDbContext;
 
-namespace BiteWiseWeb2.Data;
+namespace BiteWiseWeb2.Models;
 
-public partial class BiteWiseDbContext : DbContext
+public partial class BiteWiseDbContext : IdentityDbContext<IdentityUser>
 {
-    public BiteWiseDbContext()
+    public class ApplicationUser : IdentityUser
     {
+        // Add custom properties if needed
     }
 
     public BiteWiseDbContext(DbContextOptions<BiteWiseDbContext> options)
         : base(options)
     {
     }
+    
+
+    
 
     public virtual DbSet<DailySummary> DailySummaries { get; set; }
 
@@ -51,7 +56,58 @@ public partial class BiteWiseDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<DailySummary>(entity =>
+        modelBuilder.Entity<IdentityUser>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.ToTable("AspNetUsers");
+        });
+
+        modelBuilder.Entity<IdentityRole>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.ToTable("AspNetRoles");
+        });
+
+        modelBuilder.Entity<IdentityUserRole<string>>(entity =>
+        {
+            entity.HasKey(r => new { r.UserId, r.RoleId });
+            entity.ToTable("AspNetUserRoles");
+        });
+
+        modelBuilder.Entity<IdentityUserClaim<string>>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.ToTable("AspNetUserClaims");
+        });
+
+        modelBuilder.Entity<IdentityUserLogin<string>>(entity =>
+        {
+            entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
+            entity.ToTable("AspNetUserLogins");
+        });
+
+        modelBuilder.Entity<IdentityRoleClaim<string>>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.ToTable("AspNetRoleClaims");
+        });
+
+        modelBuilder.Entity<IdentityUserToken<string>>(entity =>
+        {
+            entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
+            entity.ToTable("AspNetUserTokens");
+        });
+
+        // Call base config if needed
+        base.OnModelCreating(modelBuilder);
+
+        // Your custom entities:
+        modelBuilder.Entity<Food>().ToTable("Foods");
+        modelBuilder.Entity<FoodLog>().ToTable("FoodLogs");
+        // etc...
+    
+
+    modelBuilder.Entity<DailySummary>(entity =>
         {
             entity.HasKey(e => e.SummaryId).HasName("PK__DailySum__85F93E834A617B96");
 
