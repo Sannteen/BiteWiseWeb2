@@ -1,31 +1,32 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using BiteWiseWeb2.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace BiteWiseWeb2.Controllers;
 
-public class HomeController : Controller
-{
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    public class HomeController : Controller
     {
-        _logger = logger;
-    }
+        private readonly UserManager<IdentityUser> _userManager;
 
-    public IActionResult Index()
-    {
-        return View();
-    }
+        public HomeController(UserManager<IdentityUser> userManager)
+        {
+            _userManager = userManager;
+        }
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+        public IActionResult Index()
+        {
+            return View();
+        }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View();
+        }
     }
-}
