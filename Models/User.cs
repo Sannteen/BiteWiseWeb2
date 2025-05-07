@@ -17,7 +17,7 @@ public partial class User
 
     public string? Gender { get; set; }
 
-    public decimal? Height { get; set; }
+    public decimal Height { get; set; }
 
     public decimal? Weight { get; set; }
 
