@@ -53,4 +53,5 @@ public partial class User
     public virtual ICollection<UserPreference> UserPreferences { get; set; } = new List<UserPreference>();
 
     public virtual ICollection<WorkoutLog> WorkoutLogs { get; set; } = new List<WorkoutLog>();
+    public string PasswordHash { get; internal set; }
 }

@@ -20,7 +20,7 @@ namespace BiteWiseWeb2.Controllers
             // Example: Get the currently logged-in user (replace with actual login logic)
             int userId = 1; // Replace with actual logic to get user ID from session or claims
 
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            var user = _context.Users.FirstOrDefault(u => u.UserId == userId);
 
             if (user == null)
             {
@@ -29,13 +29,13 @@ namespace BiteWiseWeb2.Controllers
 
             var vm = new ProfileViewModel
             {
-                Id = user.Id,
+                Id = user.UserId,
                 Name = user.Name,
                 Email = user.Email,
                 Gender = user.Gender,
-                Height = user.Height,
-                Weight = user.Weight,
-                FitnessGoal = user.FitnessGoal,
+                Height = (float)user.Height,
+                Weight = (float)user.Weight,
+               // FitnessGoal = user.FitnessGoal,
                 ActivityLevel = user.ActivityLevel,
                 CurrentPassword = "",
                 NewPassword = ""
@@ -52,7 +52,7 @@ namespace BiteWiseWeb2.Controllers
                 return View(model);
             }
 
-            var user = _context.Users.FirstOrDefault(u => u.Id == model.Id);
+            var user = _context.Users.FirstOrDefault(u => u.UserId == model.Id);
 
             if (user == null)
             {
@@ -66,16 +66,16 @@ namespace BiteWiseWeb2.Controllers
             user.Name = model.Name;
             user.Email = model.Email;
             user.Gender = model.Gender;
-            user.Height = model.Height;
-            user.Weight = model.Weight;
-            user.FitnessGoal = model.FitnessGoal;
+            user.Height = (decimal?)model.Height;
+            user.Weight = (decimal?)model.Weight;
+          //  user.FitnessGoal = model.FitnessGoal;
             user.ActivityLevel = model.ActivityLevel;
 
             // Update password if new password is provided
             if (!string.IsNullOrWhiteSpace(model.NewPassword))
             {
                 // Note: Replace this with secure password hashing
-                user.PasswordHash = model.NewPassword;
+                user.PasswordHash = model.NewPassword;          
             }
 
             _context.SaveChanges();
