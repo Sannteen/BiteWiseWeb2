@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BiteWiseWeb2.Models;
 
-public partial class DailySummary
+public class DailySummary
 {
+    [Key]
     public int SummaryId { get; set; }
-
+    [Required]
     public int? UserId { get; set; }
 
     public DateOnly Date { get; set; }

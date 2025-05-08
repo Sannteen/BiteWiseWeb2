@@ -34,12 +34,33 @@
                     <h3 class="text-med-turquoise">Recent Food Logs</h3>
                     @if (Model.RecentFoodLogs.Any())
                     {
-                        <ul class="list-unstyled">
-                            @foreach (var log in Model.RecentFoodLogs)
-                            {
-                                <li>@log.Date.ToShortDateString(): @log.FoodName (@log.CalsConsumed kcal)</li>
-                            }
-                        </ul>
+                        <table class="table table-bordered table-striped mt-3">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Food</th>
+                                    <th>Calories</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var log in Model.RecentFoodLogs)
+                                {
+                                    <tr>
+                                        <td>@log.Date.ToShortDateString()</td>
+                                        <td>@log.FoodName</td>
+                                        <td>@log.CalsConsumed</td>
+                                        <td>
+                                            <a asp-action="EditLog" asp-route-id="@log.RecordId" class="btn btn-sm btn-outline-primary">Edit</a>
+                                            <form asp-action="DeleteLog" asp-route-id="@log.RecordId" method="post" class="d-inline">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this log?');">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
                     }
                     else
                     {

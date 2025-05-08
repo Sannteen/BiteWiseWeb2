@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Food>
+﻿@* @model IEnumerable<Food>
 
 @{
     ViewData["Title"] = "Index";
@@ -67,11 +67,66 @@
                 @Html.DisplayFor(modelItem => item.Category)
             </td>     
             <td>
-           <!-- <a asp-action="Edit" asp-route-id="@item.FoodId">Edit</a> -->
-          <!--  <a asp-action="Details" asp-route-id="@item.FoodId">Details</a> -->
-           <!-- <a asp-action="Delete" asp-route-id="@item.FoodId">Delete</a> -->
+            <a asp-action="Edit" asp-route-id="@item.FoodId">Edit</a> 
+           <a asp-action="Details" asp-route-id="@item.FoodId">Details</a>
+          <a asp-action="Delete" asp-route-id="@item.FoodId">Delete</a> 
             </td>
         </tr>
 }
     </tbody>
 </table>
+ *@
+
+            @model IEnumerable<Food>
+
+@{
+    ViewData["Title"] = "Foods";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-med-turquoise fw-bold">Foods</h1>
+        <a asp-action="Create" class="btn btn-success rounded-pill px-4" style="background-color: #74c69d; border-color: #74c69d;">
+            + Add New Food
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover shadow-sm rounded">
+            <thead class="table-light text-muted-turquoise">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Name)</th>
+                    <th>@Html.DisplayNameFor(model => model.Calories)</th>
+                    <th>@Html.DisplayNameFor(model => model.Protein)</th>
+                    <th>@Html.DisplayNameFor(model => model.Carbs)</th>
+                    <th>@Html.DisplayNameFor(model => model.Fats)</th>
+                    <th>@Html.DisplayNameFor(model => model.Fiber)</th>
+                    <th>@Html.DisplayNameFor(model => model.ServingSize)</th>
+                    <th>@Html.DisplayNameFor(model => model.Category)</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Calories)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Protein)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Carbs)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Fats)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Fiber)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ServingSize)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Category)</td>
+                        <td class="text-center">
+                            <a asp-action="Edit" asp-route-id="@item.FoodId" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+                            <a asp-action="Details" asp-route-id="@item.FoodId" class="btn btn-sm btn-outline-secondary me-1">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.FoodId" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
