@@ -379,9 +379,9 @@ namespace BiteWiseWeb2.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnName("password");
 
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    //b.Property<string>("PasswordHash")
+                    //    .IsRequired()
+                    //    .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime")
@@ -716,8 +716,8 @@ namespace BiteWiseWeb2.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
+                    //b.Property<string>("PasswordHash")
+                    //    .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");

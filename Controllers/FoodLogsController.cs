@@ -68,22 +68,26 @@ namespace BiteWiseWeb2.Controllers
             return View(foodLog);
         }
 
+
         // GET: FoodLogs/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+                        
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            var foodLog = await _context.FoodLogs.FindAsync(id);
-            if (foodLog == null)
-            {
-                return NotFound();
-            }
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", foodLog.UserId);
-            return View(foodLog);
+                var foodLog = await _context.FoodLogs.FindAsync(id);
+                if (foodLog == null)
+                {
+                    return NotFound();
+                }
+                ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", foodLog.UserId);
+                return View(foodLog);
+
         }
+
 
         // POST: FoodLogs/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -101,7 +105,18 @@ namespace BiteWiseWeb2.Controllers
             {
                 try
                 {
-                    _context.Update(foodLog);
+                    var existingLog = await _context.FoodLogs.FindAsync(id);
+                    if (existingLog == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Manually update properties
+                    existingLog.Date = foodLog.Date;
+                    existingLog.FoodName = foodLog.FoodName;
+                    existingLog.CalsConsumed = foodLog.CalsConsumed;
+                    existingLog.UserId = foodLog.UserId;
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -117,6 +132,7 @@ namespace BiteWiseWeb2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", foodLog.UserId);
             return View(foodLog);
         }
