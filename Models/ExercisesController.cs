@@ -5,27 +5,25 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using BiteWiseWeb2.Models;
 
-namespace BiteWiseWeb2.Controllers
+namespace BiteWiseWeb2.Models
 {
-    public class FoodLogsController : Controller
+    public class ExercisesController : Controller
     {
         private readonly BiteWiseDbContext _context;
 
-        public FoodLogsController(BiteWiseDbContext context)
+        public ExercisesController(BiteWiseDbContext context)
         {
             _context = context;
         }
 
-        // GET: FoodLogs
+        // GET: Exercises
         public async Task<IActionResult> Index()
         {
-            var biteWiseDbContext = _context.FoodLogs.Include(f => f.User);
-            return View(await biteWiseDbContext.ToListAsync());
+            return View(await _context.Exercises.ToListAsync());
         }
 
-        // GET: FoodLogs/Details/5
+        // GET: Exercises/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,42 +31,39 @@ namespace BiteWiseWeb2.Controllers
                 return NotFound();
             }
 
-            var foodLog = await _context.FoodLogs
-                .Include(f => f.User)
-                .FirstOrDefaultAsync(m => m.RecordId == id);
-            if (foodLog == null)
+            var exercise = await _context.Exercises
+                .FirstOrDefaultAsync(m => m.ExerciseId == id);
+            if (exercise == null)
             {
                 return NotFound();
             }
 
-            return View(foodLog);
+            return View(exercise);
         }
 
-        // GET: FoodLogs/Create
+        // GET: Exercises/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId");
             return View();
         }
 
-        // POST: FoodLogs/Create
+        // POST: Exercises/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RecordId,UserId,Date,FoodName,CalsConsumed")] FoodLog foodLog)
+        public async Task<IActionResult> Create([Bind("ExerciseId,Name,Category,CaloriesBurnedPerMin")] Exercise exercise)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(foodLog);
+                _context.Add(exercise);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", foodLog.UserId);
-            return View(foodLog);
+            return View(exercise);
         }
 
-        // GET: FoodLogs/Edit/5
+        // GET: Exercises/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -76,23 +71,22 @@ namespace BiteWiseWeb2.Controllers
                 return NotFound();
             }
 
-            var foodLog = await _context.FoodLogs.FindAsync(id);
-            if (foodLog == null)
+            var exercise = await _context.Exercises.FindAsync(id);
+            if (exercise == null)
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", foodLog.UserId);
-            return View(foodLog);
+            return View(exercise);
         }
 
-        // POST: FoodLogs/Edit/5
+        // POST: Exercises/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RecordId,UserId,Date,FoodName,CalsConsumed")] FoodLog foodLog)
+        public async Task<IActionResult> Edit(int id, [Bind("ExerciseId,Name,Category,CaloriesBurnedPerMin")] Exercise exercise)
         {
-            if (id != foodLog.RecordId)
+            if (id != exercise.ExerciseId)
             {
                 return NotFound();
             }
@@ -101,12 +95,12 @@ namespace BiteWiseWeb2.Controllers
             {
                 try
                 {
-                    _context.Update(foodLog);
+                    _context.Update(exercise);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FoodLogExists(foodLog.RecordId))
+                    if (!ExerciseExists(exercise.ExerciseId))
                     {
                         return NotFound();
                     }
@@ -117,11 +111,10 @@ namespace BiteWiseWeb2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "UserId", foodLog.UserId);
-            return View(foodLog);
+            return View(exercise);
         }
 
-        // GET: FoodLogs/Delete/5
+        // GET: Exercises/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -129,35 +122,34 @@ namespace BiteWiseWeb2.Controllers
                 return NotFound();
             }
 
-            var foodLog = await _context.FoodLogs
-                .Include(f => f.User)
-                .FirstOrDefaultAsync(m => m.RecordId == id);
-            if (foodLog == null)
+            var exercise = await _context.Exercises
+                .FirstOrDefaultAsync(m => m.ExerciseId == id);
+            if (exercise == null)
             {
                 return NotFound();
             }
 
-            return View(foodLog);
+            return View(exercise);
         }
 
-        // POST: FoodLogs/Delete/5
+        // POST: Exercises/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var foodLog = await _context.FoodLogs.FindAsync(id);
-            if (foodLog != null)
+            var exercise = await _context.Exercises.FindAsync(id);
+            if (exercise != null)
             {
-                _context.FoodLogs.Remove(foodLog);
+                _context.Exercises.Remove(exercise);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool FoodLogExists(int id)
+        private bool ExerciseExists(int id)
         {
-            return _context.FoodLogs.Any(e => e.RecordId == id);
+            return _context.Exercises.Any(e => e.ExerciseId == id);
         }
     }
 }

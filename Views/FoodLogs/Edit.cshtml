@@ -1,4 +1,4 @@
-﻿@model FoodLog
+﻿@model BiteWiseWeb2.Models.FoodLog
 
 @{
     ViewData["Title"] = "Edit";
@@ -19,6 +19,11 @@
                 <span asp-validation-for="UserId" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="FoodName" class="control-label"></label>
                 <input asp-for="FoodName" class="form-control" />
                 <span asp-validation-for="FoodName" class="text-danger"></span>
@@ -27,11 +32,6 @@
                 <label asp-for="CalsConsumed" class="control-label"></label>
                 <input asp-for="CalsConsumed" class="form-control" />
                 <span asp-validation-for="CalsConsumed" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

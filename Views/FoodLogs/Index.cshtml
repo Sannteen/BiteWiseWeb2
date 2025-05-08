@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FoodLog>
+﻿@model IEnumerable<BiteWiseWeb2.Models.FoodLog>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,13 +13,13 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.FoodName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CalsConsumed)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.User)
@@ -31,21 +31,21 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.FoodName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CalsConsumed)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.User.UserId)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.RecordId">Edit</a> 
-                <a asp-action="Details" asp-route-id="@item.RecordId">Details</a> 
-                <a asp-action="Delete" asp-route-id="@item.RecordId">Delete</a> 
+                <a asp-action="Edit" asp-route-id="@item.RecordId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.RecordId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.RecordId">Delete</a>
             </td>
         </tr>
 }
