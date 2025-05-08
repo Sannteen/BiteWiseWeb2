@@ -29,7 +29,10 @@
                                 <a class="nav-link text-muted-turquoise" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-muted-turquoise" asp-controller="FoodLog" asp-action="Index">Food Log</a>
+                                <a class="nav-link text-muted-turquoise" asp-controller="FoodLogs" asp-action="Index">Food Log</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-muted-turquoise" asp-controller="Foods" asp-action="Index">Foods</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-muted-turquoise" asp-controller="Profile" asp-action="Index">Profile</a>
@@ -38,6 +41,7 @@
                     </ul>
                     @if (User.Identity?.IsAuthenticated == true)
                     {
+                        <span class="nav-link" class="nav-link text-muted-turquoise">Hi @User.Identity.Name!</span>
                         <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home")" method="post">
                             <button type="submit" class="nav-link btn btn-link text-muted-turquoise">Logout</button>
                         </form>

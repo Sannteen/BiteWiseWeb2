@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using BiteWiseWeb2.Models;
 
 namespace BiteWiseWeb2.Models
 {
     public class DashboardViewModel
     {
+        internal List<Food> Foods;
+
         // Display properties
         public string UserName { get; set; }
         public DailySummary TodaySummary { get; set; }
@@ -38,5 +41,9 @@ namespace BiteWiseWeb2.Models
 
         [Required]
         public DateTime WorkoutDate { get; set; } = DateTime.Today;
+
+        // For editing
+        public FoodLog FoodLog { get; set; }
     }
 }
+

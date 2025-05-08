@@ -76,7 +76,7 @@ namespace BiteWiseWeb2.Controllers
         // POST: Dashboard/FoodLogCreate
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> FoodLogCreate([Bind("FoodName,Calories,Date")] FoodLog foodLog)
+        public async Task<IActionResult> AddFoodLog([Bind("FoodName, Calories, Date")] FoodLog foodLog)
         {
             var identityUser = await _userManager.GetUserAsync(User);
             if (identityUser == null)
@@ -86,6 +86,7 @@ namespace BiteWiseWeb2.Controllers
 
             var user = await _dbContext.Users
                 .FirstOrDefaultAsync(u => u.Email == identityUser.Email);
+
             if (user == null)
             {
                 return NotFound();
@@ -94,37 +95,19 @@ namespace BiteWiseWeb2.Controllers
             if (ModelState.IsValid)
             {
                 foodLog.UserId = user.UserId;
-                _dbContext.Add(foodLog);
+                _dbContext.Add(foodLog);  // Add food log to database
+                await _dbContext.SaveChangesAsync();  // Save changes
 
-                // Update or create DailySummary
-                var today = DateOnly.FromDateTime(foodLog.Date);
-                var summary = await _dbContext.DailySummaries
-                    .FirstOrDefaultAsync(s => s.UserId == user.UserId && s.Date == today);
+                // Set a success message in TempData
+                TempData["SuccessMessage"] = "Food log added successfully!";
 
-                if (summary == null)
-                {
-                    summary = new DailySummary
-                    {
-                        UserId = user.UserId,
-                        Date = today,
-                        TotalCaloriesConsumed = foodLog.CalsConsumed,
-                        TotalCaloriesBurned = 0,
-                        NetCalories = foodLog.CalsConsumed
-                    };
-                    _dbContext.DailySummaries.Add(summary);
-                }
-                else
-                {
-                    summary.TotalCaloriesConsumed += foodLog.CalsConsumed;
-                    summary.NetCalories = summary.TotalCaloriesConsumed - summary.TotalCaloriesBurned;
-                    _dbContext.DailySummaries.Update(summary);
-                }
-
-                await _dbContext.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));  // Redirect to the Index action after saving
             }
-            return View(foodLog);
+
+            return View(foodLog);  // Return view with validation errors if any
         }
+
+
 
         // Fix for CS0019 and CS0029 errors by ensuring proper conversion between DateOnly and DateTime
         private static DateOnly ConvertToDateOnly(DateTime dateTime)
@@ -136,5 +119,149 @@ namespace BiteWiseWeb2.Controllers
         {
             return dateTime.HasValue ? DateOnly.FromDateTime(dateTime.Value) : null;
         }
+
+        // GET: Dashboard/EditLog/5
+        public async Task<IActionResult> EditLog(int id)
+        {
+            var log = await _dbContext.FoodLogs.FindAsync(id);
+            if (log == null)
+            {
+                return NotFound();
+            }
+
+            return View(log);
+        }
+
+        // POST: Dashboard/EditLog/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditLog(int id, [Bind("RecordId,FoodName,CalsConsumed,Date")] FoodLog foodLog)
+        {
+            if (id != foodLog.RecordId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _dbContext.Update(foodLog);
+
+                    // Update DailySummary if needed
+                    var today = DateOnly.FromDateTime(foodLog.Date);
+                    var summary = await _dbContext.DailySummaries
+                        .FirstOrDefaultAsync(s => s.UserId == foodLog.UserId && s.Date == today);
+
+                    if (summary != null)
+                    {
+                        // Optionally recalculate based on all logs
+                        var totalConsumed = await _dbContext.FoodLogs
+                            .Where(f => f.UserId == foodLog.UserId && f.Date == foodLog.Date)
+                            .SumAsync(f => f.CalsConsumed);
+
+                        summary.TotalCaloriesConsumed = totalConsumed;
+                        summary.NetCalories = summary.TotalCaloriesConsumed - summary.TotalCaloriesBurned;
+                        _dbContext.Update(summary);
+                    }
+
+                    await _dbContext.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!_dbContext.FoodLogs.Any(e => e.RecordId == foodLog.RecordId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(foodLog);
+        }
+
+        // POST: Dashboard/DeleteLog/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteLog(int id)
+        {
+            var log = await _dbContext.FoodLogs.FindAsync(id);
+            if (log != null)
+            {
+                _dbContext.FoodLogs.Remove(log);
+
+                // Update DailySummary if needed
+                var summary = await _dbContext.DailySummaries
+                    .FirstOrDefaultAsync(s => s.UserId == log.UserId && s.Date == DateOnly.FromDateTime(log.Date));
+
+                if (summary != null)
+                {
+                    summary.TotalCaloriesConsumed -= log.CalsConsumed;
+                    summary.NetCalories = summary.TotalCaloriesConsumed - summary.TotalCaloriesBurned;
+                    _dbContext.Update(summary);
+                }
+
+                await _dbContext.SaveChangesAsync();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> AddFoodLog([Bind("FoodName,Calories,Date")] FoodLog foodLog)
+        //{
+        //    var identityUser = await _userManager.GetUserAsync(User);
+        //    if (identityUser == null)
+        //    {
+        //        return Challenge();
+        //    }
+
+        //    var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == identityUser.Email);
+        //    if (user == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        foodLog.UserId = user.UserId;
+        //        _dbContext.FoodLogs.Add(foodLog);
+
+        //        var today = DateOnly.FromDateTime(foodLog.Date);
+        //        var summary = await _dbContext.DailySummaries
+        //            .FirstOrDefaultAsync(s => s.UserId == user.UserId && s.Date == today);
+
+        //        if (summary == null)
+        //        {
+        //            summary = new DailySummary
+        //            {
+        //                UserId = user.UserId,
+        //                Date = today,
+        //                TotalCaloriesConsumed = foodLog.CalsConsumed,
+        //                TotalCaloriesBurned = 0,
+        //                NetCalories = foodLog.CalsConsumed
+        //            };
+        //            _dbContext.DailySummaries.Add(summary);
+        //        }
+        //        else
+        //        {
+        //            summary.TotalCaloriesConsumed += foodLog.CalsConsumed;
+        //            summary.NetCalories = summary.TotalCaloriesConsumed - summary.TotalCaloriesBurned;
+        //            _dbContext.DailySummaries.Update(summary);
+        //        }
+
+        //        await _dbContext.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+
+        //    // Instead of returning a missing view, go back to dashboard
+        //    return RedirectToAction(nameof(Index));
+        //}
+
     }
 }
